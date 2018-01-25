@@ -2,6 +2,7 @@ package main
 
 import (
 	"ibsi/dbase"
+)
 
 func init() {
 	dbase.Connections["DBApp"].NewCommand("Sys_GetTables", "Sys_GetTables", "procedure", func(cmd dbase.ICommand) {
