@@ -1,0 +1,39 @@
+package main
+
+import (
+	// "net/http"
+	// "ibsi/dbase"
+	"ibsi/crud"
+)
+
+func init2() {
+
+	crud.Handler(crud.CrudHandler {
+		Name: "member-claims",
+		Action: "member-claims",
+		KeyName: "id",
+		ListDataSource: "DBApp.GetMemberClaims",
+		Rights: map[string]bool{
+			"add": false,
+			"edit": false,
+			"delete": false,
+		},
+		// OnInitCrud: func(crud map[string]bool) {
+			// crud["add"] = false
+			// crud["edit"] = false
+			// crud["delete"] = false
+		// },
+	})
+
+	// dbase.Connections["DBApp"].NewCommand("GetMemberClaims", "GetMemberClaims", "procedure", func(cmd dbase.ICommand) {
+		// cmd.NewParameter("member_id", "int", "in", 0, 0)
+		// cmd.NewParameter("action", "int", "in", 0, 0)
+		// cmd.NewParameter("page", "int", "in", 0, 1)
+		// cmd.NewParameter("pagesize", "int", "in", 0, 0)
+		// cmd.NewParameter("row_count", "int", "inout", 0, 0)
+		// cmd.NewParameter("page_count", "int", "inout", 0, 0)
+		// cmd.NewParameter("sort", "string", "in", 200, "claim_no")
+		// cmd.NewParameter("order", "string", "in", 10, "asc")
+		// cmd.NewParameter("visit_id", "int", "in", 0, 0)
+	// })	
+}

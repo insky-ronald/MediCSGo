@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+		<title>{{.Title}}</title>
+		<link rel="SHORTCUT ICON" href="{{.Icon}}">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="/loadcss/app/css/main-{{.Pid}}.css?pid={{.Pid}}" rel="stylesheet" type="text/css">
+    </head>
+	<body>
+	</body> 
+	<script type="text/javascript" charset="utf-8" src="/loadscript/app/scripts/main-{{.Pid}}.js?pid={{.Pid}}"></script>
+	<script>
+		$(document).ready(function() {
+			desktop = new MainPage({id:"{{.Pid}}"});
+		});
+	</script>
+	<script type="application/json" id="__pagedata">
+		{{.Nav}}
+	</script>	
+	<g id="svg-collection" style="display:none"></g>
+</html>

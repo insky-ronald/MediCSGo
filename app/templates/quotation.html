@@ -1,0 +1,202 @@
+{{ $data := .Custom }}
+{{ $owner := .Custom.Owner }}
+{{ $quotation := .Custom.Quotation }}
+{{ $sales := .Custom.Sales }}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+		<title>Quotation: {{ $quotation.reference_no }}</title>
+		<link rel="SHORTCUT ICON" href="/images/jcjz-logo-16.jpg">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<link href="/loadcss/app/css/print-quotation.css" rel="stylesheet" type="text/css">
+    </head>
+	<body>		
+		<div class="document {{ $data.Pdf }}">
+			<div class="commands">
+				<!-- <a>Send Mail</a> -->
+				<a class="send-mail" href="/app/api/mail/quotation?id={{$quotation.id}}" onclick=sendMail(this)>Email</a>
+				<a href="/app/getpdf/quotation/{{$quotation.id}}">Download Quotation</a>
+				<a onclick="window.print()">Print</a>
+			</div>
+			
+			<div class="header">
+				<img class="logo" src="/images/jcjz-logo-1024.png">
+				
+				<div class="company">
+					<div class="name">{{$owner.full_name}} </div>
+					<div class="address1">Benchmark Corporate Center</div>
+					<div class="address1">152 G/F Amorsolo St., Legaspi Village, Makati City, 1229</div>
+					<div class="contact">
+						<span class="phone">(632) 812 3277</span>
+						<span class="fax">(632) 812 7177</span>
+					</div>
+					<div class="tin">234 403 234 000</div>
+				</div>
+				
+				<div class="date-reference-header">
+					<table class="col2-table-title date-reference" cellpadding="0" cellspacing="0" border="0">
+						<tbody>
+							<tr>
+								<td colspan=2 x-sec="title">Quotation</td>
+							</tr>
+							<tr>
+								<td>Date</td>
+								<td>{{ $data.QuotationDate }}</td>
+							</tr>
+							<tr>
+								<td>Quotation No.</td>
+								<td>{{ $quotation.reference_no }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+				
+			<div class="customer">
+				<div class="buyer-title">BUYER</div>
+				<div class="buyer"  contenteditable=true>{{ $sales.customer_name }}</div>
+				<div class="attention">{{ $quotation.contact_person }}</div>
+				<div class="address delimeted">
+					{{ if $quotation.street }}
+						<span>{{ $quotation.street }}</span>
+					{{ end }}
+					{{ if $quotation.city }}
+						<span>{{ $quotation.city }}</span>
+					{{ end }}
+					{{ if $quotation.province }}
+						<span>{{ $quotation.province }}</span>
+					{{ end }}
+					{{ if $quotation.zip_code }}
+						<span>{{ $quotation.zip_code }}</span>
+					{{ end }}
+				</div>
+				<div class="contact delimeted">
+					{{ if $quotation.phone_no }}
+						<span>{{ $quotation.phone_no }}</span>
+					{{ end }}
+					{{ if $quotation.mobile_no }}
+						<span>{{ $quotation.mobile_no }}</span>
+					{{ end }}
+				</div>
+				<div class="email">{{ $quotation.email }}</div>
+			</div>
+			
+			<div class="details">
+				<p class="message">We are pleased to relay our best price as follows.</p>
+				<table cellpadding="0" cellspacing="0" border="0">
+					<tbody>
+						<tr>
+							<th>Description</th>
+							<th>Packaging</th>
+							<th style="min-width:50px">Qty</th>
+							<th style="min-width:50px">Unit</th>
+							<th style="min-width:100px">Unit Price</th>
+							<th style="min-width:100px">Total Amount</th>
+						</tr>
+					</tbody>
+					
+					{{ range $data.Items }}
+						{{ if eq .status_code_id 0 }}
+							<td colspan=6 class="col-header">{{ .description }}</td>
+						{{ else if eq .status_code_id 1 }}
+							<td colspan=6 class="col-footer">{{ .description }}</td>
+						{{ else }}
+							<tr>
+								<td class="col-normal">{{ .description }}</td>
+								<td class="col-center">{{ .packaging }}</td>
+								<td class="col-center">{{ .quantity }}</td>
+								<td class="col-center">{{ .unit }}</td>
+								<td class="col-money">{{  .unit_price }}</td>
+								<td class="col-money">{{  .amount }}</td>
+							</tr>
+						{{ end }}
+					{{ end }}
+					
+					<tr class="total">
+						{{ if $sales.has_vat }}
+							<td colspan="5" class="col-right">TOTAL AMOUNT (12% VAT INC)</td>
+						{{ else }}
+							<td colspan="5" class="col-right">TOTAL AMOUNT (EXCLUSIVE OF VAT)</td>
+						{{ end }}
+						
+						<td class="col-money">{{ $sales.amount }}</td>
+					</tr>
+				</table>
+			</div>
+			
+			<div class="two-column-section note-bank">
+				<div x-sec="left">
+					<table class="col2-table-title note" cellpadding="0" cellspacing="0" border="0">
+						<tbody>
+							<tr>
+								<td colspan=2 x-sec="title">NOTE</td>
+							</tr>
+							<tr>
+								<td>Term</td>
+								<td>{{ $sales.terms }}</td>
+							</tr>
+							<tr>
+								<td>Lead Time</td>
+								<td>{{ $sales.lead_time }}</td>
+							</tr>
+							<tr>
+								<td>Price Validity</td>
+								<td>{{ $sales.price_validity }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div x-sec="separator"></div>
+				
+				<div x-sec="right">
+					<table class="col2-table-title bank" cellpadding="0" cellspacing="0" border="0">
+						<tbody>
+							<tr>
+								<td colspan=2 x-sec="title">BANK</td>
+							</tr>
+							<tr>
+								<td>Account Name</td>
+								<td>JCJZ ENTERPRISES</td>
+							</tr>
+							<tr>
+								<td>Checking A/C #</td>
+								<td>00636-5-01998-1</td>
+							</tr>
+							<tr>
+								<td>Bank Name</td>
+								<td>BPI FAMILY SAVINGS BANK</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<p class="message">If you have any questions please don't hesitate to contact the undersigned.</p>
+			
+			<div class="two-column-section footer">
+				<div x-sec="left">
+					<div class="company-signature">
+						<div>Approved by:</div>
+						<div class="signature">
+							<div>{{ $quotation.undersign_person }}</div>
+							<div>{{ $quotation.undersign_email }}</div>
+						</div>
+					</div>
+				</div>
+				
+				<div x-sec="separator"></div>
+				
+				<div x-sec="right">
+					<div>THANK YOU!</div>
+					<div class="customer-signature">
+						<div>Signature over printed name/date</div>
+						<div class="conforme">Conforme</div>
+						<div>Please sign and return a copy in order to process your order.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

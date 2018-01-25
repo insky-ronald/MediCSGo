@@ -1,0 +1,33 @@
+package main
+
+import (
+	// "net/http"
+	"ibsi/dbase"
+	"ibsi/crud"
+)
+
+func init() {
+
+	crud.Handler(crud.CrudHandler {
+		Name: "claim-services",
+		Action: "claim-services",
+		KeyName: "id",
+		ListDataSource: "DBApp.GetClaimServices",
+		Rights: map[string]bool{
+			"add": true,
+			"edit": true,
+			"delete": false,
+		},
+		// OnInitCrud: func(crud map[string]bool) {
+			// crud["add"] = true
+			// crud["edit"] = true
+			// crud["delete"] = false
+		// },
+	})
+
+	dbase.Connections["DBApp"].NewCommand("GetClaimServices", "GetClaimServices", "procedure", func(cmd dbase.ICommand) {
+		cmd.NewParameter("claim_id", "int", "in", 0, 0)
+		cmd.NewParameter("service_type", "string", "in", 3, "")
+		cmd.NewParameter("visit_id", "int", "in", 0, 0)
+	})
+}

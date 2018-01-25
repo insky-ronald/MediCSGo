@@ -1,0 +1,251 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"io/ioutil"
+	"github.com/gorilla/mux"
+	"ibsi/dbase"
+)
+
+// ****************************************************************************************************
+// Test main...	
+// ****************************************************************************************************
+// func main() {
+func main2() {
+	defer config.CloseConnections()
+
+	// dtRoles := OpenDataTable("DBSecure", "GetRoles", []string{"filter","row_count","page_count","mode"}, []interface{}{"",0,0,0})
+	// dtRoles := OpenDataTable2("DBSecure", "GetRoles", []string{"filter","mode"}, []interface{}{"a",0})
+	// dtRoles := OpenDataTable3("DBSecure", "GetRoles", map[string]interface{}{"filter": "a", "mode": 0})
+	dtRoles := DBConnections["DBApp"].Query("GetSaleItems", TParameters{"filter": "a", "mode": 0})
+	if dtRoles != nil && !dtRoles.Eof() {
+		fmt.Printf("id=%v\n", dtRoles.Get("id"))
+		fmt.Printf("description=%v\n", dtRoles.Get("description"))
+		fmt.Printf("role=%v\n", dtRoles.Get("role"))
+		fmt.Printf("position=%v\n", dtRoles.Get("position"))
+		fmt.Printf("status_code_id=%v\n", dtRoles.Get("status_code_id"))
+		fmt.Printf("out row_count=%v\n", dtRoles.GetOutput("row_count"))
+		fmt.Printf("out page_count=%v\n", dtRoles.GetOutput("page_count"))
+		// fmt.Println(dtRoles.JsonString())
+	}
+}
+
+// func main() {
+func main3() {
+	defer config.CloseConnections()
+
+	// dtRoles := OpenDataTable("DBSecure", "GetRoles", []string{"filter","row_count","page_count","mode"}, []interface{}{"",0,0,0})
+	// dtRoles := OpenDataTable2("DBSecure", "GetRoles", []string{"filter","mode"}, []interface{}{"a",0})
+	dtRoles := DBConnections["DBApp"].Query("GetSaleItems", TParameters{})
+	if dtRoles != nil && !dtRoles.Eof() {
+		fmt.Printf("id=%v\n", dtRoles.Get("id"))
+		fmt.Printf("full_name=%v\n", dtRoles.Get("full_name"))
+		fmt.Printf("ewt=%v\n", dtRoles.Get("ewt"))
+		// fmt.Printf("ewt=%s\n", string(dtRoles.Get("ewt").([]byte)))
+		
+		// b := []uint8{48,46,48,48,48,48}
+		// b := []uint8{48,48,48,48,48,48,48,48}
+		// fmt.Printf("b=%v\n", b)
+		// b := dtRoles.Get("ewt").([]byte)
+		// fmt.Printf(string(b))
+		// fmt.Printf("ewt=%s\n", string(dtRoles.Get("ewt").([]byte)))
+		
+		// var pi float64
+		// buf := bytes.NewReader(b)
+		// err := binary.Read(buf, binary.LittleEndian, &pi)
+		// if err != nil {
+		  // fmt.Println("binary.Read failed:", err)
+		// }
+		// fmt.Print(pi)
+	}
+}
+
+// func main() {
+func main4() {
+	defer config.CloseConnections()
+	
+	// config.Connections["DBApp"].NewCommand("GetCustomers2", "GetCustomers", "procedure", func(cmd *Command) {
+		// cmd.NewParameter("id", "int", "in", 0, 0)
+		// cmd.NewParameter("ids", "string", "in", 200, "")
+		// cmd.NewParameter("action", "int", "in", 0, 0)
+		// cmd.NewParameter("visit_id", "int", "in", 0, 0)
+		// cmd.NewParameter("page", "int", "in", 0, 1)
+		// cmd.NewParameter("pagesize", "int", "in", 0, 25)
+		// cmd.NewParameter("row_count", "int", "inout", 0, 0)
+		// cmd.NewParameter("page_count", "int", "inout", 0, 0)
+		// cmd.NewParameter("sort", "string", "in", 200, "full_name")
+		// cmd.NewParameter("order", "string", "in", 10, "asc")
+	// })
+	
+	// query := OpenDataTable2("DBApp", "GetCustomers", []string{"ids"}, []interface{}{"14"})
+	// query := OpenDataTable2("DBApp", "GetCustomers2", []string{"ids"}, []interface{}{"14"})
+	// query := OpenDataTable2("DBApp", "GetCustomers2", []string{}, []interface{}{})
+	// query := OpenDataTable2("DBApp", "GetAddresses2", []string{}, []interface{}{})
+	query := DBConnections["DBApp"].Query("GetSaleItems", TParameters{})
+	if query != nil {
+		fmt.Println(query.JsonString())
+	}
+}
+
+// func main() {
+func main6() {
+	defer config.CloseConnections()
+	
+	query := DBConnections["DBApp"].Query("GetSaleItems", TParameters{"sale_id":8})
+	if query != nil {
+		fmt.Println(query.DatasetCount())
+		fmt.Println(query.JsonDataTable(0))
+		fmt.Println(query.JsonDataTable(1))
+	}
+}
+
+// func main() {
+func main5() {
+	defer config.CloseConnections()
+
+	// dtRoles := OpenDataTable("DBSecure", "GetRoles", []string{"filter","row_count","page_count","mode"}, []interface{}{"",0,0,0})
+	// dtRoles := OpenDataTable2("DBSecure", "GetRoles", []string{"filter","mode"}, []interface{}{"a",0})
+	// dtVisits := DbExec("DBSecure", "AddVisit", map[string]interface{}{
+	dtVisits := DBConnections["DBSecure"].Execute("AddVisit", map[string]interface{}{
+		"application_id": config.AppID, 
+		"session_id": "TEST",
+	})
+	
+	// if dtVisits != nil && !dtVisits.Eof() {
+	if dtVisits != nil {
+		// fmt.Printf("id=%v\n", dtRoles.Get("id"))
+		// fmt.Printf("description=%v\n", dtRoles.Get("description"))
+		// fmt.Printf("role=%v\n", dtRoles.Get("role"))
+		// fmt.Printf("position=%v\n", dtRoles.Get("position"))
+		// fmt.Printf("status_code_id=%v\n", dtRoles.Get("status_code_id"))
+		// fmt.Printf("out row_count=%v\n", dtRoles.GetOutput("row_count"))
+		fmt.Printf("output visit_id=%v\n", dtVisits.GetOutput("visit_id"))
+		// fmt.Println(dtRoles.JsonString())
+	}
+}
+
+// func main() {
+func main7() {
+	defer config.CloseConnections()
+	
+	dbase.Connections["DBSecure"].NewCommand("AddVisit", "System_AddVisit", "procedure", func(cmd dbase.ICommand) {
+		cmd.NewParameter("visit_id", "int", "inout", 0, 0)
+		cmd.NewParameter("application_id", "int", "in", 0, 0)
+		cmd.NewParameter("session_id", "string", "in", 48, "")
+		cmd.NewParameter("method", "string", "in", 10, "")
+		cmd.NewParameter("local_ip", "string", "in", 20, "")
+		cmd.NewParameter("remote_ip", "string", "in", 20, "")
+		cmd.NewParameter("remote_host", "string", "in", 100, "")
+		cmd.NewParameter("user_agent", "string", "in", 100, "")
+		cmd.NewParameter("referrer_url", "string", "in", 200, "")
+		cmd.NewParameter("request_url", "string", "in", 200, "")
+	})
+	
+	qrVisits, err := dbase.Connections["DBSecure"].Execute("AddVisit", dbase.TParameters{"application_id": config.AppID,"session_id": "TEST2"})
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		dtVisits := qrVisits.GetDataTable(0)
+		fmt.Println("visit_id", dtVisits.Get("visit_id"))
+	}
+}
+
+// func main() {
+func main8() {
+	defer config.CloseConnections()
+	
+	dbase.Connections["DBSecure"].NewCommand("GetRoles", "GetRoles", "procedure", func(cmd dbase.ICommand) {
+		cmd.NewParameter("id", "int", "in", 0, 0)
+		cmd.NewParameter("ids", "string", "in", 200, "")
+		cmd.NewParameter("filter", "string", "in", 200, "")
+		cmd.NewParameter("mode", "int", "in", 0, 0)
+		cmd.NewParameter("application_id", "int", "in", 0, 0)
+		cmd.NewParameter("page", "int", "in", 0, 1)
+		cmd.NewParameter("pagesize", "int", "in", 0, 25)
+		cmd.NewParameter("row_count", "int", "inout", 0, 0)
+		cmd.NewParameter("page_count", "int", "inout", 0, 0)
+		cmd.NewParameter("sort", "string", "in", 200, "position")
+		cmd.NewParameter("order", "string", "in", 10, "asc")
+		cmd.NewParameter("visit_id", "int", "in", 0, 0)
+	}) 
+	
+	qry, err := dbase.Connections["DBSecure"].Open("GetRoles", dbase.TParameters{"filter":"dev"})
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		data := qry.GetDataTable(0)
+		out, _ := qry.GetOutput()
+		
+		fmt.Println(string(data.Json(false)[:]))
+		fmt.Println(string(out.Json(false)[:]))
+		
+		// data := qry.GetDataTable(0)
+		// fmt.Println("id", data.Get("id"))
+		// fmt.Println("role", data.Get("role"))
+		// fmt.Println("description", data.Get("description"))
+		
+		// out, _ := qry.GetOutput()		
+		// fmt.Println("row_count", out.Get("row_count"))
+		// fmt.Println("page_count", out.Get("page_count"))
+	}
+}
+
+// func main() {
+func main9() {
+	defer config.CloseConnections()
+
+	kv := NewKeyValue()
+	kv.Set("status", 0)
+	kv.Set("message", "")
+	
+	dbase.Connections["DBSecure"].NewCommand("GetRoles", "GetRoles", "procedure", func(cmd dbase.ICommand) {
+		cmd.NewParameter("id", "int", "in", 0, 0)
+		cmd.NewParameter("ids", "string", "in", 200, "")
+		cmd.NewParameter("filter", "string", "in", 200, "")
+		cmd.NewParameter("mode", "int", "in", 0, 0)
+		cmd.NewParameter("application_id", "int", "in", 0, 0)
+		cmd.NewParameter("page", "int", "in", 0, 1)
+		cmd.NewParameter("pagesize", "int", "in", 0, 25)
+		cmd.NewParameter("row_count", "int", "inout", 0, 0)
+		cmd.NewParameter("page_count", "int", "inout", 0, 0)
+		cmd.NewParameter("sort", "string", "in", 200, "position")
+		cmd.NewParameter("order", "string", "in", 10, "asc")
+		cmd.NewParameter("visit_id", "int", "in", 0, 0)
+	}) 
+	
+	qry, err := dbase.Connections["DBSecure"].Open("GetRoles", dbase.TParameters{"filter":"dev"})
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+
+		data := qry.GetDataTable(0)
+		if v, ok := data.GetOutput("page"); ok {
+			kv.Set("page", v)
+		} else {
+			kv.Set("page", 1)
+		}
+		if v, ok := data.GetOutput("row_count"); ok {
+			kv.Set("row_count", v)
+		}
+		if v, ok := data.GetOutput("page_count"); ok {
+			kv.Set("page_count", v)
+		}
+	
+		crud := make(map[string]bool)
+		crud["view"] = true
+		crud["add"] = true
+		crud["edit"] = true
+		crud["delete"] = true
+		
+		kv.Set("crud", crud)
+		
+		kv.Set("table_count", qry.TablesCount())
+		kv.Set("data_0", data.GetRows())
+		// kv.Set("data_1", out.GetRows())
+		// fmt.Println(string(data.Json(false)[:]))
+		// fmt.Println(string(out.Json(false)[:]))
+	}
+	
+	fmt.Println(kv.Json())
+}

@@ -1,0 +1,14 @@
+{
+	"name": "claim-services",
+	"action": "claim-services",
+	"path": "",
+	"key_name": "id",
+	"list_datasource": "DBApp.GetClaimServices",
+	"edit_datasource": "",
+	"update_datasource": "",
+	"rights": {
+		"add": true,
+		"edit": true,
+		"delete": false
+	}
+}

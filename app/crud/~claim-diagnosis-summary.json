@@ -1,0 +1,14 @@
+{
+	"name": "claim-diagnosis-summary",
+	"action": "claim-diagnosis",
+	"path": "",
+	"key_name": "id",
+	"list_datasource": "DBApp.GetClaimDiagnosisSummary",
+	"edit_datasource": "",
+	"update_datasource": "",
+	"rights": {
+		"add": true,
+		"edit": true,
+		"delete": false
+	}
+}

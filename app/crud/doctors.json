@@ -1,0 +1,14 @@
+{
+	"name": "doctors",
+	"action": "doctors",
+	"path": "",
+	"key_name": "id",
+	"list_datasource": "DBApp.GetDoctors",
+	"edit_datasource": "",
+	"update_datasource": "DBApp.AddDoctors",
+	"rights": {
+		"add": true,
+		"edit": true,
+		"delete": true
+	}
+}

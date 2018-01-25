@@ -1,0 +1,14 @@
+{
+	"name": "addresses",
+	"action": "addresses",
+	"path": "",
+	"key_name": "id",
+	"list_datasource": "DBApp.GetAddress",
+	"edit_datasource": "",
+	"update_datasource": "DBApp.AddAddress",
+	"rights": {
+		"add": true,
+		"edit": true,
+		"delete": true
+	}
+}

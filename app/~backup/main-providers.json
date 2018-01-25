@@ -1,0 +1,29 @@
+{
+	"pid": "providers",
+	"action": "providers",
+	"root": "",
+	"template": "template-2",
+	"route": "/app/{pid:providers\\/?}",
+	"page_title": "Providers",
+	"window_title": "Providers",
+	"menu_items": [{
+		"id": "medical",
+		"title": "Medical",
+		"subItems": [{
+			"id": "doctors",
+			"title": "Doctors",
+			"description": "Doctors",
+			"icon": "doctor",
+			"url": "app/providers",
+			"content": "",
+			"css": "*",
+			"scripts": "",
+			"run": "ProviderMasterDetailView",
+			"enabled": true,
+			"frame": false,
+			"params": {
+				"provider_type": "D"
+			}
+		}]
+	}]
+}

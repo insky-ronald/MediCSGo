@@ -1,0 +1,36 @@
+{
+	"app_id": 5002,
+	"app_name": "Claims1MED",
+	"app_title": "GO! Claims1MED!",
+	"app_icon": "/images/claims1med-16.png",
+	"res_path": "C:\\GO\\resource",
+	"doc_path": "",
+	"domain": "",
+	"port": 80,
+	"connections": [
+		{
+			"name": "DBSecure",
+			"server": "192.168.10.220",
+			"port": 1433,
+			"database": "DBAPPS01",
+			"user": "sa",
+			"password": "Trueasgold"
+		},
+		{
+			"name": "DBApp",
+			"server": "192.168.10.220",
+			"port": 1434,
+			"database": "MEDICS51",
+			"user": "sa",
+			"password": "Trueasgold"
+		},
+		{
+			"name": "DBReporting",
+			"server": "192.168.10.220",
+			"port": 1434,
+			"database": "MEDICS51",
+			"user": "sa",
+			"password": "Trueasgold"
+		}
+	]
+}
